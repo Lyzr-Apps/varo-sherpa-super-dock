@@ -489,9 +489,39 @@ export default function Home() {
   }
 
   return (
-    <div className="min-h-screen bg-white flex">
-      {/* Left Sidebar - Progress Tracker */}
-      <div className="w-80 bg-gray-50 border-r border-gray-200 p-6 overflow-y-auto hidden lg:block">
+    <div className="min-h-screen bg-white flex flex-col lg:flex-row">
+      {/* Mobile Top Navigation - Stage Indicator */}
+      <div className="lg:hidden sticky top-0 z-50 bg-white border-b border-gray-200 px-4 py-3">
+        <div className="flex items-center justify-between mb-2">
+          <div className="flex items-center gap-2">
+            <div className="w-8 h-8 bg-[#0A7B7B] rounded-lg flex items-center justify-center">
+              <Smartphone className="w-4 h-4 text-white" />
+            </div>
+            <div>
+              <h2 className="font-bold text-sm text-gray-900">Varo Bank</h2>
+              <p className="text-xs text-gray-600">KYC Onboarding</p>
+            </div>
+          </div>
+          <div className="text-right">
+            <p className="text-xs font-medium text-gray-600">
+              Step {kycStep.step}/{kycStep.total}
+            </p>
+          </div>
+        </div>
+        <Progress value={(kycStep.step / kycStep.total) * 100} className="h-1.5" />
+        <p className="text-xs text-gray-600 mt-1">{kycStep.label}</p>
+
+        {currentAgent && (
+          <div className="mt-2 flex items-center gap-2 bg-blue-50 rounded-lg px-3 py-2">
+            <Loader2 className="h-3 w-3 text-blue-600 animate-spin" />
+            <p className="text-xs text-blue-800 font-medium">{currentAgent}</p>
+          </div>
+        )}
+      </div>
+
+      {/* Left Sidebar - Progress Tracker (Desktop) */}
+      <div className="hidden lg:block lg:w-80 lg:flex-shrink-0">
+        <div className="h-screen sticky top-0 bg-gray-50 border-r border-gray-200 p-6 overflow-y-auto">
         <div className="mb-8">
           <div className="flex items-center gap-2 mb-2">
             <div className="w-10 h-10 bg-[#0A7B7B] rounded-lg flex items-center justify-center">
@@ -628,6 +658,7 @@ export default function Home() {
               </span>
             </div>
           </div>
+        </div>
         </div>
       </div>
 
