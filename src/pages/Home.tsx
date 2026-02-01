@@ -1350,28 +1350,33 @@ function ApprovalScreen({
           </CardContent>
         </Card>
 
-        <Card
-          className="mb-6 border-[#FF6B5B] bg-gradient-to-r from-[#FF6B5B] to-[#ff8577] text-white cursor-pointer hover:shadow-lg transition-shadow"
-          onClick={onSetupDirectDeposit}
-        >
-          <CardContent className="pt-6">
-            <div className="flex items-start gap-4">
-              <div className="p-3 bg-white/20 rounded-lg">
-                <Zap className="h-6 w-6 text-white" />
-              </div>
-              <div className="flex-1">
-                <h3 className="font-bold text-lg mb-1">Unlock Early Payday</h3>
-                <p className="text-white/90 text-sm mb-3">
-                  Get your paycheck up to 2 days early with Direct Deposit
-                </p>
-                <div className="flex items-center gap-2">
-                  <span className="text-sm font-medium">Set up now</span>
-                  <ChevronRight className="h-4 w-4" />
+        <div className="mb-6 space-y-2">
+          <Card
+            className="border-[#FF6B5B] bg-gradient-to-r from-[#FF6B5B] to-[#ff8577] text-white cursor-pointer hover:shadow-lg transition-shadow"
+            onClick={onSetupDirectDeposit}
+          >
+            <CardContent className="pt-6">
+              <div className="flex items-start gap-4">
+                <div className="p-3 bg-white/20 rounded-lg">
+                  <Zap className="h-6 w-6 text-white" />
+                </div>
+                <div className="flex-1">
+                  <h3 className="font-bold text-lg mb-1">Unlock Early Payday</h3>
+                  <p className="text-white/90 text-sm mb-3">
+                    Get your paycheck up to 2 days early with Direct Deposit
+                  </p>
+                  <div className="flex items-center gap-2">
+                    <span className="text-sm font-medium">Set up now</span>
+                    <ChevronRight className="h-4 w-4" />
+                  </div>
                 </div>
               </div>
-            </div>
-          </CardContent>
-        </Card>
+            </CardContent>
+          </Card>
+          <p className="text-xs text-center text-gray-500">
+            Clicking will call: <span className="font-semibold text-[#0A7B7B]">Funding Architect Agent</span>
+          </p>
+        </div>
 
         <div className="grid grid-cols-3 gap-3 mb-8">
           <button className="flex flex-col items-center gap-2 p-4 rounded-xl border border-gray-200 hover:border-[#0A7B7B] hover:bg-teal-50 transition-colors">
