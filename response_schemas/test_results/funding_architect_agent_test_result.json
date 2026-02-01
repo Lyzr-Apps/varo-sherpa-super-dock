@@ -1,0 +1,52 @@
+{
+  "agent_name": "Funding Architect Agent",
+  "agent_id": "697ea6aed36f070193f5def0",
+  "test_message": "Analyze transaction history: Employer 'Amazon Fulfillment' deposits $1,850 bi-weekly every other Friday (last deposit: Dec 20, next expected: Jan 3). Generate pre-filled DD form.",
+  "expected_purpose": "assistant",
+  "timestamp": "2026-02-01T01:08:09.722367",
+  "is_valid_json": true,
+  "validation_errors": [],
+  "actual_response": {
+    "status": "success",
+    "result": {
+      "transaction_analysis": {
+        "total_deposits_analyzed": 24,
+        "income_pattern_detected": true,
+        "primary_income_source": {
+          "employer_name": "Amazon Fulfillment",
+          "employer_confidence": 0.96,
+          "average_deposit_amount": 1850.0,
+          "pay_frequency": "bi-weekly",
+          "next_expected_payday": "2025-01-03"
+        },
+        "additional_income_sources": []
+      },
+      "direct_deposit_form": {
+        "form_generated": true,
+        "employer_name": "Amazon Fulfillment",
+        "routing_number": "123456789",
+        "account_number": "XXXXXXXXX4321",
+        "account_type": "checking",
+        "allocation_percentage": 100,
+        "prefill_confidence": 0.95,
+        "form_download_url": "https://forms.varo.com/dd/AmazonFulfillment1850.pdf"
+      },
+      "early_payday_benefit": {
+        "eligible": true,
+        "estimated_days_early": 2,
+        "annual_benefit_value": 96.0,
+        "benefit_description": "Get paid up to 2 days early with Direct Deposit - that's like getting an extra $96/year in time value"
+      },
+      "recommendations": [
+        "Set up Direct Deposit to get paid up to 2 days early",
+        "Bi-weekly pay makes it easy to automate savings goals",
+        "Consider allocating a portion of each deposit (e.g., 10%) directly to a savings account for hassle-free saving"
+      ]
+    },
+    "metadata": {
+      "agent_name": "Funding Architect Agent",
+      "timestamp": "2024-06-11T15:09:13Z"
+    }
+  },
+  "raw_response": "{\n  \"status\": \"success\",\n  \"result\": {\n    \"transaction_analysis\": {\n      \"total_deposits_analyzed\": 24,\n      \"income_pattern_detected\": true,\n      \"primary_income_source\": {\n        \"employer_name\": \"Amazon Fulfillment\",\n        \"employer_confidence\": 0.96,\n        \"average_deposit_amount\": 1850.00,\n        \"pay_frequency\": \"bi-weekly\",\n        \"next_expected_payday\": \"2025-01-03\"\n      },\n      \"additional_income_sources\": []\n    },\n    \"direct_deposit_form\": {\n      \"form_generated\": true,\n      \"employer_name\": \"Amazon Fulfillment\",\n      \"routing_number\": \"123456789\",\n      \"account_number\": \"XXXXXXXXX4321\",\n      \"account_type\": \"checking\",\n      \"allocation_percentage\": 100,\n      \"prefill_confidence\": 0.95,\n      \"form_download_url\": \"https://forms.varo.com/dd/AmazonFulfillment1850.pdf\"\n    },\n    \"early_payday_benefit\": {\n      \"eligible\": true,\n      \"estimated_days_early\": 2,\n      \"annual_benefit_value\": 96.00,\n      \"benefit_description\": \"Get paid up to 2 days early with Direct Deposit - that's like getting an extra $96/year in time value\"\n    },\n    \"recommendations\": [\n      \"Set up Direct Deposit to get paid up to 2 days early\",\n      \"Bi-weekly pay makes it easy to automate savings goals\",\n      \"Consider allocating a portion of each deposit (e.g., 10%) directly to a savings account for hassle-free saving\"\n    ]\n  },\n  \"metadata\": {\n    \"agent_name\": \"Funding Architect Agent\",\n    \"timestamp\": \"2024-06-11T15:09:13Z\"\n  }\n}"
+}

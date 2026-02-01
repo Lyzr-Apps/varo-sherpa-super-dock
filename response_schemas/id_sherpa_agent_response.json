@@ -1,0 +1,108 @@
+{
+  "agent_name": "ID Sherpa Agent",
+  "agent_id": "697ea656066158e77fde64b4",
+  "agent_purpose": "assistant",
+  "description": "Document quality analysis agent that assesses ID documents for glare, tilt, readability and authenticity",
+  "response_schema": {
+    "status": "string",
+    "result": {
+      "quality_assessment": {
+        "overall_score": "number",
+        "issues_detected": [
+          "string"
+        ],
+        "pass": "boolean"
+      },
+      "corrective_guidance": [
+        "string"
+      ],
+      "liveness_check": {
+        "positioning_valid": "boolean",
+        "face_detected": "boolean",
+        "confidence": "number"
+      },
+      "authenticity_indicators": {
+        "document_type": "string",
+        "security_features_detected": [
+          "string"
+        ],
+        "confidence": "number"
+      }
+    },
+    "metadata": {
+      "agent_name": "string",
+      "timestamp": "string"
+    }
+  },
+  "example_response": {
+    "status": "success",
+    "result": {
+      "quality_assessment": {
+        "overall_score": 0.94,
+        "issues_detected": [
+          "minor glare on left edge",
+          "slight tilt"
+        ],
+        "pass": true
+      },
+      "corrective_guidance": [
+        "Adjust the document to reduce glare on the left edge",
+        "Hold the camera level to correct the tilt"
+      ],
+      "liveness_check": {
+        "positioning_valid": true,
+        "face_detected": true,
+        "confidence": 0.97
+      },
+      "authenticity_indicators": {
+        "document_type": "passport",
+        "security_features_detected": [
+          "watermark",
+          "MRZ (machine readable zone)"
+        ],
+        "confidence": 0.95
+      }
+    },
+    "metadata": {
+      "agent_name": "ID Sherpa Agent",
+      "timestamp": "2024-06-20T14:30:00Z"
+    }
+  },
+  "is_actual_tested": true,
+  "test_timestamp": "2026-02-01T01:08:47.051163",
+  "test_message_used": "Hello, provide a sample response",
+  "actual_test_response": {
+    "status": "success",
+    "result": {
+      "quality_assessment": {
+        "overall_score": 0.94,
+        "issues_detected": [
+          "minor glare on left edge",
+          "slight tilt"
+        ],
+        "pass": true
+      },
+      "corrective_guidance": [
+        "Adjust the document to reduce glare on the left edge",
+        "Hold the camera level to correct the tilt"
+      ],
+      "liveness_check": {
+        "positioning_valid": true,
+        "face_detected": true,
+        "confidence": 0.97
+      },
+      "authenticity_indicators": {
+        "document_type": "passport",
+        "security_features_detected": [
+          "watermark",
+          "MRZ (machine readable zone)"
+        ],
+        "confidence": 0.95
+      }
+    },
+    "metadata": {
+      "agent_name": "ID Sherpa Agent",
+      "timestamp": "2024-06-20T14:30:00Z"
+    }
+  }
+}

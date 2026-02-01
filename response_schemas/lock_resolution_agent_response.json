@@ -1,0 +1,158 @@
+{
+  "agent_name": "Lock Resolution Agent",
+  "agent_id": "697ea690d36f070193f5deef",
+  "agent_purpose": "assistant",
+  "description": "Account unlock handling agent that verifies device fingerprints and manages security challenges",
+  "response_schema": {
+    "status": "string",
+    "result": {
+      "unlock_decision": {
+        "case_id": "string",
+        "decision": "string",
+        "unlock_method": "string",
+        "confidence": "number"
+      },
+      "verification_results": {
+        "video_selfie": {
+          "completed": "boolean",
+          "face_match_score": "number",
+          "liveness_confirmed": "boolean",
+          "passed": "boolean"
+        },
+        "device_fingerprint": {
+          "device_id": "string",
+          "matches_history": "boolean",
+          "trusted_device": "boolean",
+          "last_seen": "string"
+        },
+        "fraud_flag_review": {
+          "original_flag": "string",
+          "flag_type": "string",
+          "cleared": "boolean",
+          "reason": "string"
+        }
+      },
+      "security_assessment": {
+        "risk_level": "string",
+        "risk_score": "number",
+        "additional_challenges_required": "boolean",
+        "account_access_granted": "boolean"
+      },
+      "audit_trail": {
+        "resolver": "string",
+        "timestamp": "string",
+        "verification_methods_used": [
+          "string"
+        ],
+        "fraud_system_updated": "boolean"
+      }
+    },
+    "metadata": {
+      "agent_name": "string",
+      "timestamp": "string"
+    }
+  },
+  "example_response": {
+    "status": "success",
+    "result": {
+      "unlock_decision": {
+        "case_id": "UNL-98765",
+        "decision": "approved",
+        "unlock_method": "video_selfie",
+        "confidence": 0.92
+      },
+      "verification_results": {
+        "video_selfie": {
+          "completed": true,
+          "face_match_score": 0.96,
+          "liveness_confirmed": true,
+          "passed": true
+        },
+        "device_fingerprint": {
+          "device_id": "DEV-ABC123",
+          "matches_history": true,
+          "trusted_device": true,
+          "last_seen": "2026-01-28T15:30:00Z"
+        },
+        "fraud_flag_review": {
+          "original_flag": "suspicious_login_pattern",
+          "flag_type": "false_positive",
+          "cleared": true,
+          "reason": "User traveled to new location, device fingerprint matches trusted device"
+        }
+      },
+      "security_assessment": {
+        "risk_level": "low",
+        "risk_score": 0.15,
+        "additional_challenges_required": false,
+        "account_access_granted": true
+      },
+      "audit_trail": {
+        "resolver": "Lock Resolution Agent",
+        "timestamp": "2026-01-28T16:45:00Z",
+        "verification_methods_used": [
+          "video_selfie",
+          "device_fingerprint"
+        ],
+        "fraud_system_updated": true
+      }
+    },
+    "metadata": {
+      "agent_name": "Lock Resolution Agent",
+      "timestamp": "2026-01-28T16:45:00Z"
+    }
+  },
+  "is_actual_tested": true,
+  "test_timestamp": "2026-02-01T01:08:53.227275",
+  "test_message_used": "Hello, provide a sample response",
+  "actual_test_response": {
+    "status": "success",
+    "result": {
+      "unlock_decision": {
+        "case_id": "UNL-98765",
+        "decision": "approved",
+        "unlock_method": "video_selfie",
+        "confidence": 0.92
+      },
+      "verification_results": {
+        "video_selfie": {
+          "completed": true,
+          "face_match_score": 0.96,
+          "liveness_confirmed": true,
+          "passed": true
+        },
+        "device_fingerprint": {
+          "device_id": "DEV-ABC123",
+          "matches_history": true,
+          "trusted_device": true,
+          "last_seen": "2026-01-28T15:30:00Z"
+        },
+        "fraud_flag_review": {
+          "original_flag": "suspicious_login_pattern",
+          "flag_type": "false_positive",
+          "cleared": true,
+          "reason": "User traveled to new location, device fingerprint matches trusted device"
+        }
+      },
+      "security_assessment": {
+        "risk_level": "low",
+        "risk_score": 0.15,
+        "additional_challenges_required": false,
+        "account_access_granted": true
+      },
+      "audit_trail": {
+        "resolver": "Lock Resolution Agent",
+        "timestamp": "2026-01-28T16:45:00Z",
+        "verification_methods_used": [
+          "video_selfie",
+          "device_fingerprint"
+        ],
+        "fraud_system_updated": true
+      }
+    },
+    "metadata": {
+      "agent_name": "Lock Resolution Agent",
+      "timestamp": "2026-01-28T16:45:00Z"
+    }
+  }
+}

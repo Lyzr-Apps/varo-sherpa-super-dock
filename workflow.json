@@ -1,0 +1,196 @@
+{
+  "workflow_name": "Varo Bank Onboarding System",
+  "workflow_description": "Intelligent onboarding workflow with ID verification, compliance investigation, lock resolution, and funding architecture",
+  "nodes": [
+    {
+      "id": "input_node",
+      "type": "Input",
+      "label": "Start Onboarding",
+      "nodeCategory": "input",
+      "position": {
+        "x": 100,
+        "y": 250
+      }
+    },
+    {
+      "id": "onboarding_orchestrator",
+      "type": "Agent",
+      "label": "Onboarding Orchestrator",
+      "nodeCategory": "agent",
+      "agent_id": "697ea6d9d36f070193f5def1",
+      "agent_type": "Manager",
+      "position": {
+        "x": 350,
+        "y": 250
+      }
+    },
+    {
+      "id": "id_sherpa_agent",
+      "type": "Agent",
+      "label": "ID Sherpa Agent",
+      "nodeCategory": "agent",
+      "agent_id": "697ea656066158e77fde64b4",
+      "agent_type": "Sub-Agent",
+      "position": {
+        "x": 350,
+        "y": 450
+      }
+    },
+    {
+      "id": "compliance_investigator_agent",
+      "type": "Agent",
+      "label": "Compliance Investigator Agent",
+      "nodeCategory": "agent",
+      "agent_id": "697ea672066158e77fde64b5",
+      "agent_type": "Sub-Agent",
+      "position": {
+        "x": 550,
+        "y": 450
+      }
+    },
+    {
+      "id": "lock_resolution_agent",
+      "type": "Agent",
+      "label": "Lock Resolution Agent",
+      "nodeCategory": "agent",
+      "agent_id": "697ea690d36f070193f5deef",
+      "agent_type": "Sub-Agent",
+      "position": {
+        "x": 750,
+        "y": 450
+      }
+    },
+    {
+      "id": "funding_architect_agent",
+      "type": "Agent",
+      "label": "Funding Architect Agent",
+      "nodeCategory": "agent",
+      "agent_id": "697ea6aed36f070193f5def0",
+      "agent_type": "Independent",
+      "position": {
+        "x": 650,
+        "y": 250
+      }
+    },
+    {
+      "id": "output_node",
+      "type": "Output",
+      "label": "Onboarding Complete",
+      "nodeCategory": "end",
+      "position": {
+        "x": 900,
+        "y": 250
+      }
+    }
+  ],
+  "edges": [
+    {
+      "source": "input_node",
+      "target": "onboarding_orchestrator",
+      "label": "Start"
+    },
+    {
+      "source": "onboarding_orchestrator",
+      "target": "id_sherpa_agent",
+      "label": "ID Verification"
+    },
+    {
+      "source": "onboarding_orchestrator",
+      "target": "compliance_investigator_agent",
+      "label": "Compliance Check"
+    },
+    {
+      "source": "onboarding_orchestrator",
+      "target": "lock_resolution_agent",
+      "label": "Lock Resolution"
+    },
+    {
+      "source": "onboarding_orchestrator",
+      "target": "funding_architect_agent",
+      "label": "Funding Setup"
+    },
+    {
+      "source": "id_sherpa_agent",
+      "target": "output_node",
+      "label": "Complete"
+    },
+    {
+      "source": "compliance_investigator_agent",
+      "target": "output_node",
+      "label": "Complete"
+    },
+    {
+      "source": "lock_resolution_agent",
+      "target": "output_node",
+      "label": "Complete"
+    },
+    {
+      "source": "funding_architect_agent",
+      "target": "output_node",
+      "label": "Complete"
+    }
+  ],
+  "agents": [
+    {
+      "name": "Onboarding Orchestrator",
+      "agent_id": "697ea6d9d36f070193f5def1",
+      "type": "Manager",
+      "description": "Coordinates ID verification, compliance investigation, and lock resolution; aggregates decisions with OCC-compliant reasoning chains; manages real-time user guidance flow",
+      "provider": "OpenAI",
+      "model": "gpt-4.1",
+      "temperature": 0.3,
+      "top_p": 1,
+      "managed_agents": [
+        "697ea656066158e77fde64b4",
+        "697ea672066158e77fde64b5",
+        "697ea690d36f070193f5deef"
+      ]
+    },
+    {
+      "name": "ID Sherpa Agent",
+      "agent_id": "697ea656066158e77fde64b4",
+      "type": "Sub-Agent",
+      "description": "Analyzes camera feed for document quality issues; provides real-time corrective guidance (glare, angle, blur); confirms liveness check positioning",
+      "provider": "OpenAI",
+      "model": "gpt-4.1",
+      "temperature": 0.2,
+      "top_p": 1,
+      "tools": ["Computer Vision API"]
+    },
+    {
+      "name": "Compliance Investigator Agent",
+      "agent_id": "697ea672066158e77fde64b5",
+      "type": "Sub-Agent",
+      "description": "Investigates thin-file rejections using alternative data (telco, utility, geolocation); builds reasoning chains for approval recommendations; generates audit-ready case files",
+      "provider": "OpenAI",
+      "model": "gpt-4.1",
+      "temperature": 0.2,
+      "top_p": 1,
+      "tools": ["Telco API", "Utility API", "Geolocation Service", "ChexSystems"]
+    },
+    {
+      "name": "Lock Resolution Agent",
+      "agent_id": "697ea690d36f070193f5deef",
+      "type": "Sub-Agent",
+      "description": "Handles account unlock requests via dynamic challenges (video selfie verification); validates device fingerprints against user history; clears false-positive fraud flags",
+      "provider": "OpenAI",
+      "model": "gpt-4.1",
+      "temperature": 0.2,
+      "top_p": 1,
+      "tools": ["Device Fingerprint API", "Internal Fraud Systems"]
+    },
+    {
+      "name": "Funding Architect Agent",
+      "agent_id": "697ea6aed36f070193f5def0",
+      "type": "Independent",
+      "description": "Analyzes linked bank transaction patterns; identifies employer and pay schedule; generates pre-filled Direct Deposit switch forms; calculates early payday benefit",
+      "provider": "OpenAI",
+      "model": "gpt-4.1",
+      "temperature": 0.4,
+      "top_p": 1,
+      "tools": ["Plaid", "Employer Form Database"]
+    }
+  ],
+  "created_at": "2026-02-01T00:00:00Z",
+  "version": "1.0.0"
+}

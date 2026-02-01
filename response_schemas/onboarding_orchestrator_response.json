@@ -1,0 +1,180 @@
+{
+  "agent_name": "Onboarding Orchestrator",
+  "agent_id": "697ea6d9d36f070193f5def1",
+  "agent_purpose": "manager",
+  "description": "Manager agent that coordinates the onboarding workflow by orchestrating ID verification, compliance checks, and account security",
+  "response_schema": {
+    "status": "string",
+    "result": {
+      "onboarding_decision": {
+        "approved": "boolean",
+        "confidence": "number",
+        "decision_rationale": "string",
+        "risk_level": "string"
+      },
+      "verification_summary": {
+        "id_verification": {
+          "completed": "boolean",
+          "passed": "boolean",
+          "quality_score": "number",
+          "agent": "string"
+        },
+        "compliance_check": {
+          "completed": "boolean",
+          "passed": "boolean",
+          "alternative_data_used": "boolean",
+          "agent": "string"
+        },
+        "account_security": {
+          "completed": "boolean",
+          "no_flags": "boolean",
+          "agent": "string"
+        }
+      },
+      "reasoning_chain": [
+        "string"
+      ],
+      "next_steps": [
+        "string"
+      ],
+      "audit_trail": {
+        "orchestrator": "string",
+        "timestamp": "string",
+        "agents_invoked": [
+          "string"
+        ],
+        "regulatory_framework": "string",
+        "decision_reversible": "boolean"
+      }
+    },
+    "metadata": {
+      "agent_name": "string",
+      "timestamp": "string"
+    }
+  },
+  "example_response": {
+    "status": "success",
+    "result": {
+      "onboarding_decision": {
+        "approved": true,
+        "confidence": 0.94,
+        "decision_rationale": "All verification checks passed with high confidence",
+        "risk_level": "low"
+      },
+      "verification_summary": {
+        "id_verification": {
+          "completed": true,
+          "passed": true,
+          "quality_score": 0.94,
+          "agent": "ID Sherpa Agent"
+        },
+        "compliance_check": {
+          "completed": true,
+          "passed": true,
+          "alternative_data_used": true,
+          "agent": "Compliance Investigator Agent"
+        },
+        "account_security": {
+          "completed": true,
+          "no_flags": true,
+          "agent": "Lock Resolution Agent"
+        }
+      },
+      "reasoning_chain": [
+        "ID verification completed with 94% quality score; only minor glare detected, authenticity confirmed via security features (hologram, barcode)",
+        "Liveness check positioning valid with 97% face detection confidence",
+        "Thin credit file detected - routed to Compliance Investigator Agent for alternative data review",
+        "Applicant showed excellent telco payment history (36 months) and 95% reliable utility payments (electric, gas) confirmed",
+        "Geolocation confirmed address stability; ChexSystems check found no negative indicators",
+        "Lock Resolution Agent validated user device as trusted, cleared prior fraud flag as false positive",
+        "No ongoing security risks identified; device validated, no additional authentication challenges needed",
+        "Overall risk assessment: LOW",
+        "DECISION: Approve onboarding with standard account features"
+      ],
+      "next_steps": [
+        "Complete funding setup via Funding Architect Agent",
+        "Activate Direct Deposit for early payday benefits",
+        "Review welcome materials and account features"
+      ],
+      "audit_trail": {
+        "orchestrator": "Onboarding Orchestrator",
+        "timestamp": "2024-06-20T14:31:30Z",
+        "agents_invoked": [
+          "ID Sherpa Agent",
+          "Compliance Investigator Agent",
+          "Lock Resolution Agent"
+        ],
+        "regulatory_framework": "OCC Compliance Standards 2023",
+        "decision_reversible": false
+      }
+    },
+    "metadata": {
+      "agent_name": "Onboarding Orchestrator",
+      "timestamp": "2024-06-20T14:31:30Z"
+    }
+  },
+  "is_actual_tested": true,
+  "test_timestamp": "2026-02-01T01:08:44.971411",
+  "test_message_used": "Process this request and coordinate sub-agents",
+  "actual_test_response": {
+    "status": "success",
+    "result": {
+      "onboarding_decision": {
+        "approved": true,
+        "confidence": 0.94,
+        "decision_rationale": "All verification checks passed with high confidence",
+        "risk_level": "low"
+      },
+      "verification_summary": {
+        "id_verification": {
+          "completed": true,
+          "passed": true,
+          "quality_score": 0.94,
+          "agent": "ID Sherpa Agent"
+        },
+        "compliance_check": {
+          "completed": true,
+          "passed": true,
+          "alternative_data_used": true,
+          "agent": "Compliance Investigator Agent"
+        },
+        "account_security": {
+          "completed": true,
+          "no_flags": true,
+          "agent": "Lock Resolution Agent"
+        }
+      },
+      "reasoning_chain": [
+        "ID verification completed with 94% quality score; only minor glare detected, authenticity confirmed via security features (hologram, barcode)",
+        "Liveness check positioning valid with 97% face detection confidence",
+        "Thin credit file detected - routed to Compliance Investigator Agent for alternative data review",
+        "Applicant showed excellent telco payment history (36 months) and 95% reliable utility payments (electric, gas) confirmed",
+        "Geolocation confirmed address stability; ChexSystems check found no negative indicators",
+        "Lock Resolution Agent validated user device as trusted, cleared prior fraud flag as false positive",
+        "No ongoing security risks identified; device validated, no additional authentication challenges needed",
+        "Overall risk assessment: LOW",
+        "DECISION: Approve onboarding with standard account features"
+      ],
+      "next_steps": [
+        "Complete funding setup via Funding Architect Agent",
+        "Activate Direct Deposit for early payday benefits",
+        "Review welcome materials and account features"
+      ],
+      "audit_trail": {
+        "orchestrator": "Onboarding Orchestrator",
+        "timestamp": "2024-06-20T14:31:30Z",
+        "agents_invoked": [
+          "ID Sherpa Agent",
+          "Compliance Investigator Agent",
+          "Lock Resolution Agent"
+        ],
+        "regulatory_framework": "OCC Compliance Standards 2023",
+        "decision_reversible": false
+      }
+    },
+    "metadata": {
+      "agent_name": "Onboarding Orchestrator",
+      "timestamp": "2024-06-20T14:31:30Z"
+    }
+  }
+}

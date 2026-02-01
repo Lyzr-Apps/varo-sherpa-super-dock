@@ -1,0 +1,177 @@
+{
+  "agent_name": "Compliance Investigator Agent",
+  "agent_id": "697ea672066158e77fde64b5",
+  "agent_purpose": "assistant",
+  "description": "Thin-file investigation agent that uses alternative data sources (telco, utility, geolocation) for compliance verification",
+  "response_schema": {
+    "status": "string",
+    "result": {
+      "investigation_summary": {
+        "case_id": "string",
+        "applicant_risk_score": "number",
+        "recommendation": "string",
+        "confidence": "number"
+      },
+      "alternative_data_findings": {
+        "telco_verification": {
+          "account_age_months": "number",
+          "payment_history": "string",
+          "verified": "boolean"
+        },
+        "utility_verification": {
+          "service_types": [
+            "string"
+          ],
+          "payment_reliability": "number",
+          "verified": "boolean"
+        },
+        "geolocation_verification": {
+          "address_match": "boolean",
+          "stability_months": "number",
+          "verified": "boolean"
+        },
+        "chexsystems_check": {
+          "reports_found": "number",
+          "negative_indicators": "boolean"
+        }
+      },
+      "reasoning_chain": [
+        "string"
+      ],
+      "audit_trail": {
+        "investigator": "string",
+        "timestamp": "string",
+        "data_sources_checked": [
+          "string"
+        ],
+        "regulatory_framework": "string",
+        "case_file_generated": "boolean"
+      }
+    },
+    "metadata": {
+      "agent_name": "string",
+      "timestamp": "string"
+    }
+  },
+  "example_response": {
+    "status": "success",
+    "result": {
+      "investigation_summary": {
+        "case_id": "INV-12345",
+        "applicant_risk_score": 0.72,
+        "recommendation": "approve",
+        "confidence": 0.88
+      },
+      "alternative_data_findings": {
+        "telco_verification": {
+          "account_age_months": 36,
+          "payment_history": "excellent",
+          "verified": true
+        },
+        "utility_verification": {
+          "service_types": [
+            "electric",
+            "gas"
+          ],
+          "payment_reliability": 0.95,
+          "verified": true
+        },
+        "geolocation_verification": {
+          "address_match": true,
+          "stability_months": 24,
+          "verified": true
+        },
+        "chexsystems_check": {
+          "reports_found": 0,
+          "negative_indicators": false
+        }
+      },
+      "reasoning_chain": [
+        "Applicant has thin credit file with no traditional bureau data",
+        "Telco account active for 36 months with excellent payment history",
+        "Utility payments demonstrate 95% reliability over 24 months",
+        "Geolocation data confirms address stability",
+        "No negative ChexSystems reports found",
+        "Alternative data supports creditworthiness - recommend approval"
+      ],
+      "audit_trail": {
+        "investigator": "Compliance Investigator Agent",
+        "timestamp": "2024-06-06T10:47:00Z",
+        "data_sources_checked": [
+          "telco",
+          "utility",
+          "geolocation",
+          "chexsystems"
+        ],
+        "regulatory_framework": "OCC Alternative Data Guidelines 2023",
+        "case_file_generated": true
+      }
+    },
+    "metadata": {
+      "agent_name": "Compliance Investigator Agent",
+      "timestamp": "2024-06-06T10:47:00Z"
+    }
+  },
+  "is_actual_tested": true,
+  "test_timestamp": "2026-02-01T01:08:50.210759",
+  "test_message_used": "Hello, provide a sample response",
+  "actual_test_response": {
+    "status": "success",
+    "result": {
+      "investigation_summary": {
+        "case_id": "INV-12345",
+        "applicant_risk_score": 0.72,
+        "recommendation": "approve",
+        "confidence": 0.88
+      },
+      "alternative_data_findings": {
+        "telco_verification": {
+          "account_age_months": 36,
+          "payment_history": "excellent",
+          "verified": true
+        },
+        "utility_verification": {
+          "service_types": [
+            "electric",
+            "gas"
+          ],
+          "payment_reliability": 0.95,
+          "verified": true
+        },
+        "geolocation_verification": {
+          "address_match": true,
+          "stability_months": 24,
+          "verified": true
+        },
+        "chexsystems_check": {
+          "reports_found": 0,
+          "negative_indicators": false
+        }
+      },
+      "reasoning_chain": [
+        "Applicant has thin credit file with no traditional bureau data",
+        "Telco account active for 36 months with excellent payment history",
+        "Utility payments demonstrate 95% reliability over 24 months",
+        "Geolocation data confirms address stability",
+        "No negative ChexSystems reports found",
+        "Alternative data supports creditworthiness - recommend approval"
+      ],
+      "audit_trail": {
+        "investigator": "Compliance Investigator Agent",
+        "timestamp": "2024-06-06T10:47:00Z",
+        "data_sources_checked": [
+          "telco",
+          "utility",
+          "geolocation",
+          "chexsystems"
+        ],
+        "regulatory_framework": "OCC Alternative Data Guidelines 2023",
+        "case_file_generated": true
+      }
+    },
+    "metadata": {
+      "agent_name": "Compliance Investigator Agent",
+      "timestamp": "2024-06-06T10:47:00Z"
+    }
+  }
+}

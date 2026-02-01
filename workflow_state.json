@@ -1,0 +1,89 @@
+{
+  "workflow_created": true,
+  "agents_created": 5,
+  "manager_agents": [
+    {
+      "name": "Onboarding Orchestrator",
+      "agent_id": "697ea6d9d36f070193f5def1",
+      "type": "Manager",
+      "provider": "OpenAI",
+      "model": "gpt-4.1",
+      "temperature": 0.3,
+      "top_p": 1,
+      "managed_agents": [
+        {
+          "id": "697ea656066158e77fde64b4",
+          "name": "ID Sherpa Agent"
+        },
+        {
+          "id": "697ea672066158e77fde64b5",
+          "name": "Compliance Investigator Agent"
+        },
+        {
+          "id": "697ea690d36f070193f5deef",
+          "name": "Lock Resolution Agent"
+        }
+      ]
+    }
+  ],
+  "sub_agents": [
+    {
+      "name": "ID Sherpa Agent",
+      "agent_id": "697ea656066158e77fde64b4",
+      "type": "Sub-Agent",
+      "provider": "OpenAI",
+      "model": "gpt-4.1",
+      "temperature": 0.2,
+      "top_p": 1,
+      "tools": ["Computer Vision API"]
+    },
+    {
+      "name": "Compliance Investigator Agent",
+      "agent_id": "697ea672066158e77fde64b5",
+      "type": "Sub-Agent",
+      "provider": "OpenAI",
+      "model": "gpt-4.1",
+      "temperature": 0.2,
+      "top_p": 1,
+      "tools": ["Telco API", "Utility API", "Geolocation Service", "ChexSystems"]
+    },
+    {
+      "name": "Lock Resolution Agent",
+      "agent_id": "697ea690d36f070193f5deef",
+      "type": "Sub-Agent",
+      "provider": "OpenAI",
+      "model": "gpt-4.1",
+      "temperature": 0.2,
+      "top_p": 1,
+      "tools": ["Device Fingerprint API", "Internal Fraud Systems"]
+    }
+  ],
+  "independent_agents": [
+    {
+      "name": "Funding Architect Agent",
+      "agent_id": "697ea6aed36f070193f5def0",
+      "type": "Independent",
+      "provider": "OpenAI",
+      "model": "gpt-4.1",
+      "temperature": 0.4,
+      "top_p": 1,
+      "tools": ["Plaid", "Employer Form Database"]
+    }
+  ],
+  "response_schemas_created": [
+    "id_sherpa_agent_response.json",
+    "compliance_investigator_agent_response.json",
+    "lock_resolution_agent_response.json",
+    "funding_architect_agent_response.json",
+    "onboarding_orchestrator_response.json"
+  ],
+  "workflow_summary": {
+    "total_agents": 5,
+    "manager_count": 1,
+    "sub_agent_count": 3,
+    "independent_agent_count": 1,
+    "workflow_type": "manager_subagent_with_independent"
+  },
+  "created_at": "2026-02-01T00:00:00Z",
+  "status": "complete"
+}

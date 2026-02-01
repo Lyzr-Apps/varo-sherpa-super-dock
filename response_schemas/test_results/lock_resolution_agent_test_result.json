@@ -1,0 +1,60 @@
+{
+  "agent_name": "Lock Resolution Agent",
+  "agent_id": "697ea690d36f070193f5deef",
+  "test_message": "Account locked due to new device login. User device fingerprint shows iPhone 14 Pro from San Francisco, previous logins were iPhone 12 from same city. Request video challenge for verification.",
+  "expected_purpose": "assistant",
+  "timestamp": "2026-02-01T01:08:05.506263",
+  "is_valid_json": true,
+  "validation_errors": [],
+  "actual_response": {
+    "status": "success",
+    "result": {
+      "unlock_decision": {
+        "case_id": "UNL-98765",
+        "decision": "additional_verification_required",
+        "unlock_method": "video_selfie",
+        "confidence": 0.92
+      },
+      "verification_results": {
+        "video_selfie": {
+          "completed": false,
+          "face_match_score": null,
+          "liveness_confirmed": false,
+          "passed": false
+        },
+        "device_fingerprint": {
+          "device_id": "DEV-IPH14PRO-SF",
+          "matches_history": false,
+          "trusted_device": false,
+          "last_seen": "2026-06-12T16:00:00Z"
+        },
+        "fraud_flag_review": {
+          "original_flag": "suspicious_login_pattern",
+          "flag_type": "potential_risk",
+          "cleared": false,
+          "reason": "New device detected; verification pending"
+        }
+      },
+      "security_assessment": {
+        "risk_level": "medium",
+        "risk_score": 0.45,
+        "additional_challenges_required": true,
+        "account_access_granted": false
+      },
+      "audit_trail": {
+        "resolver": "Lock Resolution Agent",
+        "timestamp": "2026-06-12T16:10:00Z",
+        "verification_methods_used": [
+          "video_selfie",
+          "device_fingerprint"
+        ],
+        "fraud_system_updated": true
+      }
+    },
+    "metadata": {
+      "agent_name": "Lock Resolution Agent",
+      "timestamp": "2026-06-12T16:10:00Z"
+    }
+  },
+  "raw_response": "{\n  \"status\": \"success\",\n  \"result\": {\n    \"unlock_decision\": {\n      \"case_id\": \"UNL-98765\",\n      \"decision\": \"additional_verification_required\",\n      \"unlock_method\": \"video_selfie\",\n      \"confidence\": 0.92\n    },\n    \"verification_results\": {\n      \"video_selfie\": {\n        \"completed\": false,\n        \"face_match_score\": null,\n        \"liveness_confirmed\": false,\n        \"passed\": false\n      },\n      \"device_fingerprint\": {\n        \"device_id\": \"DEV-IPH14PRO-SF\",\n        \"matches_history\": false,\n        \"trusted_device\": false,\n        \"last_seen\": \"2026-06-12T16:00:00Z\"\n      },\n      \"fraud_flag_review\": {\n        \"original_flag\": \"suspicious_login_pattern\",\n        \"flag_type\": \"potential_risk\",\n        \"cleared\": false,\n        \"reason\": \"New device detected; verification pending\"\n      }\n    },\n    \"security_assessment\": {\n      \"risk_level\": \"medium\",\n      \"risk_score\": 0.45,\n      \"additional_challenges_required\": true,\n      \"account_access_granted\": false\n    },\n    \"audit_trail\": {\n      \"resolver\": \"Lock Resolution Agent\",\n      \"timestamp\": \"2026-06-12T16:10:00Z\",\n      \"verification_methods_used\": [\"video_selfie\", \"device_fingerprint\"],\n      \"fraud_system_updated\": true\n    }\n  },\n  \"metadata\": {\n    \"agent_name\": \"Lock Resolution Agent\",\n    \"timestamp\": \"2026-06-12T16:10:00Z\"\n  }\n}"
+}

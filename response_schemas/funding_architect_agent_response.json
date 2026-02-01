@@ -1,0 +1,151 @@
+{
+  "agent_name": "Funding Architect Agent",
+  "agent_id": "697ea6aed36f070193f5def0",
+  "agent_purpose": "assistant",
+  "description": "Direct deposit setup agent that analyzes transaction history and generates pre-filled direct deposit forms",
+  "response_schema": {
+    "status": "string",
+    "result": {
+      "transaction_analysis": {
+        "total_deposits_analyzed": "number",
+        "income_pattern_detected": "boolean",
+        "primary_income_source": {
+          "employer_name": "string",
+          "employer_confidence": "number",
+          "average_deposit_amount": "number",
+          "pay_frequency": "string",
+          "next_expected_payday": "string"
+        },
+        "additional_income_sources": [
+          {
+            "source": "string",
+            "frequency": "string",
+            "average_amount": "number"
+          }
+        ]
+      },
+      "direct_deposit_form": {
+        "form_generated": "boolean",
+        "employer_name": "string",
+        "routing_number": "string",
+        "account_number": "string",
+        "account_type": "string",
+        "allocation_percentage": "number",
+        "prefill_confidence": "number",
+        "form_download_url": "string"
+      },
+      "early_payday_benefit": {
+        "eligible": "boolean",
+        "estimated_days_early": "number",
+        "annual_benefit_value": "number",
+        "benefit_description": "string"
+      },
+      "recommendations": [
+        "string"
+      ]
+    },
+    "metadata": {
+      "agent_name": "string",
+      "timestamp": "string"
+    }
+  },
+  "example_response": {
+    "status": "success",
+    "result": {
+      "transaction_analysis": {
+        "total_deposits_analyzed": 24,
+        "income_pattern_detected": true,
+        "primary_income_source": {
+          "employer_name": "Acme Corporation",
+          "employer_confidence": 0.94,
+          "average_deposit_amount": 2850.0,
+          "pay_frequency": "bi-weekly",
+          "next_expected_payday": "2026-02-07"
+        },
+        "additional_income_sources": [
+          {
+            "source": "Freelance Payments",
+            "frequency": "irregular",
+            "average_amount": 500.0
+          }
+        ]
+      },
+      "direct_deposit_form": {
+        "form_generated": true,
+        "employer_name": "Acme Corporation",
+        "routing_number": "123456789",
+        "account_number": "XXXXXXXXX4321",
+        "account_type": "checking",
+        "allocation_percentage": 100,
+        "prefill_confidence": 0.92,
+        "form_download_url": "https://forms.varo.com/dd/ABC123.pdf"
+      },
+      "early_payday_benefit": {
+        "eligible": true,
+        "estimated_days_early": 2,
+        "annual_benefit_value": 120.0,
+        "benefit_description": "Get paid up to 2 days early with Direct Deposit - that's like getting an extra $120/year in time value"
+      },
+      "recommendations": [
+        "Set up Direct Deposit to access early payday feature",
+        "Your pay schedule suggests bi-weekly deposits - perfect for automatic savings",
+        "Consider splitting deposit: 90% checking, 10% savings for automatic wealth building"
+      ]
+    },
+    "metadata": {
+      "agent_name": "Funding Architect Agent",
+      "timestamp": "2024-07-17T22:57:38Z"
+    }
+  },
+  "is_actual_tested": true,
+  "test_timestamp": "2026-02-01T01:08:57.608412",
+  "test_message_used": "Hello, provide a sample response",
+  "actual_test_response": {
+    "status": "success",
+    "result": {
+      "transaction_analysis": {
+        "total_deposits_analyzed": 24,
+        "income_pattern_detected": true,
+        "primary_income_source": {
+          "employer_name": "Acme Corporation",
+          "employer_confidence": 0.94,
+          "average_deposit_amount": 2850.0,
+          "pay_frequency": "bi-weekly",
+          "next_expected_payday": "2026-02-07"
+        },
+        "additional_income_sources": [
+          {
+            "source": "Freelance Payments",
+            "frequency": "irregular",
+            "average_amount": 500.0
+          }
+        ]
+      },
+      "direct_deposit_form": {
+        "form_generated": true,
+        "employer_name": "Acme Corporation",
+        "routing_number": "123456789",
+        "account_number": "XXXXXXXXX4321",
+        "account_type": "checking",
+        "allocation_percentage": 100,
+        "prefill_confidence": 0.92,
+        "form_download_url": "https://forms.varo.com/dd/ABC123.pdf"
+      },
+      "early_payday_benefit": {
+        "eligible": true,
+        "estimated_days_early": 2,
+        "annual_benefit_value": 120.0,
+        "benefit_description": "Get paid up to 2 days early with Direct Deposit - that's like getting an extra $120/year in time value"
+      },
+      "recommendations": [
+        "Set up Direct Deposit to access early payday feature",
+        "Your pay schedule suggests bi-weekly deposits - perfect for automatic savings",
+        "Consider splitting deposit: 90% checking, 10% savings for automatic wealth building"
+      ]
+    },
+    "metadata": {
+      "agent_name": "Funding Architect Agent",
+      "timestamp": "2024-07-17T22:57:38Z"
+    }
+  }
+}
