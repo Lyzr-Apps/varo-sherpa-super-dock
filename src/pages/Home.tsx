@@ -26,7 +26,10 @@ import {
   Zap,
   TrendingUp,
   Building,
-  Smartphone
+  Smartphone,
+  Activity,
+  Clock,
+  CheckCircle2
 } from 'lucide-react'
 import { callAIAgent } from '@/utils/aiAgent'
 import type { NormalizedAgentResponse } from '@/utils/aiAgent'
@@ -200,6 +203,16 @@ type Screen =
   | 'approval'
   | 'direct-deposit'
 
+// Agent status tracking
+type AgentStatus = 'idle' | 'processing' | 'completed' | 'skipped'
+
+interface AgentActivity {
+  name: string
+  agentId: string
+  status: AgentStatus
+  description: string
+}
+
 export default function Home() {
   const [currentScreen, setCurrentScreen] = useState<Screen>('welcome')
   const [phoneNumber, setPhoneNumber] = useState('')
@@ -213,6 +226,22 @@ export default function Home() {
   const [showAccountNumber, setShowAccountNumber] = useState(false)
   const [selectedVerification, setSelectedVerification] = useState<string | null>(null)
   const [videoRecording, setVideoRecording] = useState(false)
+  const [currentAgent, setCurrentAgent] = useState<string | null>(null)
+  const [agentActivities, setAgentActivities] = useState<AgentActivity[]>([
+    { name: 'ID Sherpa Agent', agentId: AGENT_IDS.ID_SHERPA, status: 'idle', description: 'Document verification & quality analysis' },
+    { name: 'Compliance Investigator', agentId: AGENT_IDS.COMPLIANCE, status: 'idle', description: 'Alternative data verification' },
+    { name: 'Lock Resolution Agent', agentId: AGENT_IDS.LOCK_RESOLUTION, status: 'idle', description: 'Account security & unlock' },
+    { name: 'Onboarding Orchestrator', agentId: AGENT_IDS.ORCHESTRATOR, status: 'idle', description: 'Final approval decision' },
+    { name: 'Funding Architect', agentId: AGENT_IDS.FUNDING_ARCHITECT, status: 'idle', description: 'Direct deposit setup' }
+  ])
+
+  const updateAgentStatus = (agentId: string, status: AgentStatus) => {
+    setAgentActivities(prev =>
+      prev.map(activity =>
+        activity.agentId === agentId ? { ...activity, status } : activity
+      )
+    )
+  }
 
   const formatPhoneNumber = (value: string) => {
     const cleaned = value.replace(/\D/g, '')
@@ -237,6 +266,9 @@ export default function Home() {
 
   const handleCaptureID = async () => {
     setLoading(true)
+    setCurrentAgent('ID Sherpa Agent')
+    updateAgentStatus(AGENT_IDS.ID_SHERPA, 'processing')
+
     try {
       const result = await callAIAgent(
         `Verify ${idStep} of ID document`,
@@ -251,6 +283,9 @@ export default function Home() {
         } else if (idStep === 'back') {
           setIdStep('selfie')
         } else {
+          updateAgentStatus(AGENT_IDS.ID_SHERPA, 'completed')
+          setCurrentAgent(null)
+
           // Check if user needs alternative verification (thin file simulation)
           const needsAltVerification = Math.random() > 0.5
           if (needsAltVerification) {
@@ -271,6 +306,9 @@ export default function Home() {
     if (!selectedVerification) return
 
     setLoading(true)
+    setCurrentAgent('Compliance Investigator Agent')
+    updateAgentStatus(AGENT_IDS.COMPLIANCE, 'processing')
+
     try {
       const result = await callAIAgent(
         `Verify applicant using ${selectedVerification} data`,
@@ -279,11 +317,15 @@ export default function Home() {
 
       if (result.success && result.response.status === 'success') {
         setComplianceResponse(result.response)
+        updateAgentStatus(AGENT_IDS.COMPLIANCE, 'completed')
+        setCurrentAgent(null)
+
         // Simulate account lock scenario
         const hasAccountLock = Math.random() > 0.6
         if (hasAccountLock) {
           setCurrentScreen('account-unlock')
         } else {
+          updateAgentStatus(AGENT_IDS.LOCK_RESOLUTION, 'skipped')
           await processOnboarding()
         }
       }
@@ -297,6 +339,8 @@ export default function Home() {
   const handleVideoChallenge = async () => {
     setVideoRecording(true)
     setLoading(true)
+    setCurrentAgent('Lock Resolution Agent')
+    updateAgentStatus(AGENT_IDS.LOCK_RESOLUTION, 'processing')
 
     // Simulate 3 second recording
     await new Promise(resolve => setTimeout(resolve, 3000))
@@ -310,6 +354,8 @@ export default function Home() {
 
       if (result.success && result.response.status === 'success') {
         setLockResponse(result.response)
+        updateAgentStatus(AGENT_IDS.LOCK_RESOLUTION, 'completed')
+        setCurrentAgent(null)
         await processOnboarding()
       }
     } catch (error) {
@@ -321,6 +367,9 @@ export default function Home() {
 
   const processOnboarding = async () => {
     setLoading(true)
+    setCurrentAgent('Onboarding Orchestrator')
+    updateAgentStatus(AGENT_IDS.ORCHESTRATOR, 'processing')
+
     try {
       const result = await callAIAgent(
         'Process complete onboarding verification',
@@ -329,6 +378,8 @@ export default function Home() {
 
       if (result.success && result.response.status === 'success') {
         setOrchestratorResponse(result.response)
+        updateAgentStatus(AGENT_IDS.ORCHESTRATOR, 'completed')
+        setCurrentAgent(null)
         setCurrentScreen('approval')
       }
     } catch (error) {
@@ -340,6 +391,9 @@ export default function Home() {
 
   const handleSetupDirectDeposit = async () => {
     setLoading(true)
+    setCurrentAgent('Funding Architect Agent')
+    updateAgentStatus(AGENT_IDS.FUNDING_ARCHITECT, 'processing')
+
     try {
       const result = await callAIAgent(
         'Generate direct deposit form and analyze income patterns',
@@ -348,6 +402,8 @@ export default function Home() {
 
       if (result.success && result.response.status === 'success') {
         setFundingResponse(result.response)
+        updateAgentStatus(AGENT_IDS.FUNDING_ARCHITECT, 'completed')
+        setCurrentAgent(null)
       }
     } catch (error) {
       console.error('Funding architect error:', error)
@@ -355,6 +411,28 @@ export default function Home() {
       setLoading(false)
     }
   }
+
+  // KYC step calculation
+  const getKYCStep = () => {
+    switch (currentScreen) {
+      case 'welcome':
+        return { step: 1, label: 'Phone Verification', total: 5 }
+      case 'id-verification':
+        return { step: 2, label: 'ID Verification', total: 5 }
+      case 'alternative-verification':
+        return { step: 3, label: 'Additional Verification', total: 5 }
+      case 'account-unlock':
+        return { step: 4, label: 'Security Check', total: 5 }
+      case 'approval':
+        return { step: 5, label: 'Approval', total: 5 }
+      case 'direct-deposit':
+        return { step: 5, label: 'Setup Complete', total: 5 }
+      default:
+        return { step: 1, label: 'Getting Started', total: 5 }
+    }
+  }
+
+  const kycStep = getKYCStep()
 
   const renderScreen = () => {
     switch (currentScreen) {
@@ -411,8 +489,152 @@ export default function Home() {
   }
 
   return (
-    <div className="min-h-screen bg-white">
-      {renderScreen()}
+    <div className="min-h-screen bg-white flex">
+      {/* Left Sidebar - Progress Tracker */}
+      <div className="w-80 bg-gray-50 border-r border-gray-200 p-6 overflow-y-auto hidden lg:block">
+        <div className="mb-8">
+          <div className="flex items-center gap-2 mb-2">
+            <div className="w-10 h-10 bg-[#0A7B7B] rounded-lg flex items-center justify-center">
+              <Smartphone className="w-6 h-6 text-white" />
+            </div>
+            <div>
+              <h2 className="font-bold text-gray-900">Varo Bank</h2>
+              <p className="text-xs text-gray-600">KYC Onboarding</p>
+            </div>
+          </div>
+        </div>
+
+        {/* KYC Progress */}
+        <div className="mb-8">
+          <div className="flex items-center justify-between mb-3">
+            <h3 className="text-sm font-semibold text-gray-900">Progress</h3>
+            <span className="text-xs font-medium text-gray-600">
+              Step {kycStep.step} of {kycStep.total}
+            </span>
+          </div>
+          <Progress value={(kycStep.step / kycStep.total) * 100} className="h-2 mb-2" />
+          <p className="text-xs text-gray-600">{kycStep.label}</p>
+        </div>
+
+        {/* Current Agent Activity */}
+        {currentAgent && (
+          <div className="mb-8 p-4 bg-blue-50 border border-blue-200 rounded-lg">
+            <div className="flex items-start gap-3">
+              <div className="mt-1">
+                <Loader2 className="h-5 w-5 text-blue-600 animate-spin" />
+              </div>
+              <div className="flex-1">
+                <p className="text-sm font-semibold text-blue-900 mb-1">Agent Active</p>
+                <p className="text-xs text-blue-800">{currentAgent}</p>
+                <div className="flex items-center gap-1 mt-2">
+                  <Activity className="h-3 w-3 text-blue-600" />
+                  <span className="text-xs text-blue-700">Processing your request...</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Agent Activities Timeline */}
+        <div>
+          <h3 className="text-sm font-semibold text-gray-900 mb-4">AI Agents</h3>
+          <div className="space-y-3">
+            {agentActivities.map((activity, index) => (
+              <div
+                key={activity.agentId}
+                className={`p-3 rounded-lg border transition-all ${
+                  activity.status === 'processing'
+                    ? 'bg-blue-50 border-blue-300'
+                    : activity.status === 'completed'
+                    ? 'bg-green-50 border-green-300'
+                    : activity.status === 'skipped'
+                    ? 'bg-gray-100 border-gray-300'
+                    : 'bg-white border-gray-200'
+                }`}
+              >
+                <div className="flex items-start gap-3">
+                  <div className="mt-0.5">
+                    {activity.status === 'processing' && (
+                      <Loader2 className="h-4 w-4 text-blue-600 animate-spin" />
+                    )}
+                    {activity.status === 'completed' && (
+                      <CheckCircle2 className="h-4 w-4 text-green-600" />
+                    )}
+                    {activity.status === 'skipped' && (
+                      <ChevronRight className="h-4 w-4 text-gray-400" />
+                    )}
+                    {activity.status === 'idle' && (
+                      <Clock className="h-4 w-4 text-gray-400" />
+                    )}
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <p className={`text-xs font-semibold mb-1 ${
+                      activity.status === 'processing'
+                        ? 'text-blue-900'
+                        : activity.status === 'completed'
+                        ? 'text-green-900'
+                        : activity.status === 'skipped'
+                        ? 'text-gray-500'
+                        : 'text-gray-700'
+                    }`}>
+                      {activity.name}
+                    </p>
+                    <p className={`text-xs leading-tight ${
+                      activity.status === 'processing'
+                        ? 'text-blue-700'
+                        : activity.status === 'completed'
+                        ? 'text-green-700'
+                        : activity.status === 'skipped'
+                        ? 'text-gray-500'
+                        : 'text-gray-500'
+                    }`}>
+                      {activity.description}
+                    </p>
+                    <div className="mt-2 flex items-center gap-1">
+                      <Badge
+                        variant="outline"
+                        className={`text-xs px-2 py-0 ${
+                          activity.status === 'processing'
+                            ? 'border-blue-400 text-blue-700'
+                            : activity.status === 'completed'
+                            ? 'border-green-400 text-green-700'
+                            : activity.status === 'skipped'
+                            ? 'border-gray-300 text-gray-600'
+                            : 'border-gray-300 text-gray-600'
+                        }`}
+                      >
+                        {activity.status === 'idle' ? 'Pending' : activity.status}
+                      </Badge>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Agent ID Reference (for debugging) */}
+        <div className="mt-8 p-3 bg-gray-100 rounded-lg">
+          <p className="text-xs font-semibold text-gray-700 mb-2">System Info</p>
+          <div className="space-y-1">
+            <div className="flex items-center justify-between text-xs">
+              <span className="text-gray-600">Total Agents</span>
+              <span className="font-mono text-gray-900">{agentActivities.length}</span>
+            </div>
+            <div className="flex items-center justify-between text-xs">
+              <span className="text-gray-600">Completed</span>
+              <span className="font-mono text-gray-900">
+                {agentActivities.filter(a => a.status === 'completed').length}
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Main Content */}
+      <div className="flex-1 overflow-y-auto">
+        {renderScreen()}
+      </div>
     </div>
   )
 }
@@ -649,23 +871,30 @@ function IDVerificationScreen({
         </div>
 
         <div className="space-y-3">
-          <Button
-            onClick={onCapture}
-            disabled={loading}
-            className="w-full h-14 text-lg bg-[#0A7B7B] hover:bg-[#085f5f]"
-          >
-            {loading ? (
-              <>
-                <Loader2 className="mr-2 h-5 w-5 animate-spin" />
-                Processing...
-              </>
-            ) : (
-              <>
-                <Camera className="mr-2 h-5 w-5" />
-                Capture
-              </>
+          <div className="space-y-2">
+            <Button
+              onClick={onCapture}
+              disabled={loading}
+              className="w-full h-14 text-lg bg-[#0A7B7B] hover:bg-[#085f5f]"
+            >
+              {loading ? (
+                <>
+                  <Loader2 className="mr-2 h-5 w-5 animate-spin" />
+                  Processing...
+                </>
+              ) : (
+                <>
+                  <Camera className="mr-2 h-5 w-5" />
+                  Capture
+                </>
+              )}
+            </Button>
+            {!loading && (
+              <p className="text-xs text-center text-gray-500">
+                Calling: <span className="font-semibold text-[#0A7B7B]">ID Sherpa Agent</span>
+              </p>
             )}
-          </Button>
+          </div>
 
           <button className="w-full text-sm text-[#0A7B7B] font-medium">
             Having trouble? Upload manually
@@ -849,7 +1078,7 @@ function AlternativeVerificationScreen({
           </Card>
         )}
 
-        <div className="mt-auto">
+        <div className="mt-auto space-y-2">
           <Button
             onClick={onContinue}
             disabled={!selectedVerification || loading}
@@ -864,6 +1093,11 @@ function AlternativeVerificationScreen({
               'Continue'
             )}
           </Button>
+          {!loading && selectedVerification && (
+            <p className="text-xs text-center text-gray-500">
+              Calling: <span className="font-semibold text-[#0A7B7B]">Compliance Investigator Agent</span>
+            </p>
+          )}
         </div>
       </div>
     </div>
@@ -996,28 +1230,35 @@ function AccountUnlockScreen({
         )}
 
         <div className="mt-auto space-y-3">
-          <Button
-            onClick={onSubmitChallenge}
-            disabled={loading || videoRecording}
-            className="w-full h-14 text-lg bg-[#0A7B7B] hover:bg-[#085f5f]"
-          >
-            {loading ? (
-              <>
-                <Loader2 className="mr-2 h-5 w-5 animate-spin" />
-                Verifying...
-              </>
-            ) : videoRecording ? (
-              <>
-                <div className="w-5 h-5 mr-2 border-4 border-white rounded-full animate-pulse"></div>
-                Recording...
-              </>
-            ) : (
-              <>
-                <PlayCircle className="mr-2 h-5 w-5" />
-                Start Recording
-              </>
+          <div className="space-y-2">
+            <Button
+              onClick={onSubmitChallenge}
+              disabled={loading || videoRecording}
+              className="w-full h-14 text-lg bg-[#0A7B7B] hover:bg-[#085f5f]"
+            >
+              {loading ? (
+                <>
+                  <Loader2 className="mr-2 h-5 w-5 animate-spin" />
+                  Verifying...
+                </>
+              ) : videoRecording ? (
+                <>
+                  <div className="w-5 h-5 mr-2 border-4 border-white rounded-full animate-pulse"></div>
+                  Recording...
+                </>
+              ) : (
+                <>
+                  <PlayCircle className="mr-2 h-5 w-5" />
+                  Start Recording
+                </>
+              )}
+            </Button>
+            {!loading && !videoRecording && (
+              <p className="text-xs text-center text-gray-500">
+                Calling: <span className="font-semibold text-[#0A7B7B]">Lock Resolution Agent</span>
+              </p>
             )}
-          </Button>
+          </div>
 
           <button className="w-full text-sm text-[#0A7B7B] font-medium">
             Contact Support
@@ -1227,7 +1468,7 @@ function DirectDepositScreen({
 
         {!fundingResult ? (
           <Card className="mb-6">
-            <CardContent className="pt-6">
+            <CardContent className="pt-6 space-y-2">
               <Button
                 onClick={onSetupDirectDeposit}
                 disabled={loading}
@@ -1242,6 +1483,11 @@ function DirectDepositScreen({
                   'Analyze My Income'
                 )}
               </Button>
+              {!loading && (
+                <p className="text-xs text-center text-gray-500">
+                  Calling: <span className="font-semibold text-[#0A7B7B]">Funding Architect Agent</span>
+                </p>
+              )}
             </CardContent>
           </Card>
         ) : (
